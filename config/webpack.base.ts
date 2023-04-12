@@ -14,11 +14,12 @@ const config: Configuration = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)?$/,
-        exclude: /node_modules/,
+        test: /\.(ts|tsx|jsx)?$/,
+        // exclude: [/node_modules[\\/]core-js/, /node_modules[\\/]webpack[\\/]buildin/],
         use: {
           loader: 'babel-loader',
           options: {
+            // cacheDirectory: true,
             presets: [
               [
                 '@babel/preset-env',
@@ -53,6 +54,10 @@ const config: Configuration = {
       // inject: true, // 自动注入静态资源
     }),
   ],
+  stats: {
+    assetsSort: 'size',
+    chunks: true,
+  },
 };
 
 export default config;
