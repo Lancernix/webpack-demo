@@ -14,12 +14,12 @@ const config: Configuration = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx|jsx)?$/,
-        // exclude: [/node_modules[\\/]core-js/, /node_modules[\\/]webpack[\\/]buildin/],
+        test: /\.(ts|tsx)$/,
+        exclude: ['/node_modules/'],
         use: {
           loader: 'babel-loader',
           options: {
-            // cacheDirectory: true,
+            cacheDirectory: true,
             presets: [
               [
                 '@babel/preset-env',
@@ -39,6 +39,40 @@ const config: Configuration = {
               '@babel/preset-typescript',
             ],
             plugins: [['@babel/plugin-transform-runtime', { version: runtimeVersion }]],
+          },
+        },
+      },
+      {
+        test: /\.(js|cjs|mjs)?$/,
+        // exclude: ['/node_modules/'],
+        include: ['/node_modules/'],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  useBuiltIns: 'usage',
+                  corejs: { version: corejsVersion, proposals: true },
+                },
+              ],
+            ],
+            plugins: [['@babel/plugin-transform-runtime', { version: runtimeVersion }]],
+          },
+        },
+      },
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader'],
+      },
+      {
+        test: /\.(png|jpe?g|svg)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10 * 1024, // 10kb
           },
         },
       },
