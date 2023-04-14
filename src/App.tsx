@@ -1,8 +1,8 @@
-import "./App.less";
-import bigdog from "./assets/bigdog.jpg";
-import smalldog from "./assets/smalldog.jpg";
+import './App.less';
+import bigdog from './assets/bigdog.jpg';
+import smalldog from './assets/smalldog.jpg';
 
-import SimpleModal from "components/SimpleModal";
+import SimpleModal from 'components/SimpleModal';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <br />
       <p className="blue-text">这是一段蓝色的文字</p>
       <br />
-      {/* <SimpleModal /> */}
+      <SimpleModal />
       <br />
       <img src={smalldog} alt="小狗" />
       <br />
@@ -19,9 +19,7 @@ function App() {
       <br />
       <div className="with-bg" />
       <br />
-      <div
-        style={{ width: 120, height: 160, backgroundImage: `url(${smalldog})` }}
-      />
+      <div style={{ width: 120, height: 160, backgroundImage: `url(${smalldog})` }} />
     </>
   );
 }
