@@ -1,10 +1,10 @@
+import { version as runtimeVersion } from '@babel/plugin-transform-runtime/package.json';
+import { version as corejsVersion } from 'core-js/package.json';
+import forkTsCheckerPlugin from 'fork-ts-checker-webpack-plugin';
+import HtmlPlugin from 'html-webpack-plugin';
 import path from 'path';
 import { Configuration as Config } from 'webpack';
 import { Configuration as DevServerConfig } from 'webpack-dev-server';
-import HtmlPlugin from 'html-webpack-plugin';
-import forkTsCheckerPlugin from 'fork-ts-checker-webpack-plugin';
-import { version as corejsVersion } from 'core-js/package.json';
-import { version as runtimeVersion } from '@babel/plugin-transform-runtime/package.json';
 
 import proxy from './dev.proxy';
 interface Configuration extends Config {
@@ -40,6 +40,12 @@ const config: Configuration = {
     // 模块编译规则
     rules: [
       {
+        test: /\.(mjs|js)$/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+      {
         test: /\.(ts|tsx)$/,
         exclude: ['/node_modules/'],
         use: {
@@ -52,6 +58,7 @@ const config: Configuration = {
                 {
                   useBuiltIns: 'usage',
                   corejs: { version: corejsVersion, proposals: true },
+                  modules: false,
                 },
               ],
               [
@@ -93,7 +100,11 @@ const config: Configuration = {
       },
       {
         test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'less-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          { loader: 'less-loader', options: { lessOptions: { javascriptEnabled: true } } },
+        ],
       },
       {
         test: /\.(png|jpe?g|svg)$/,
